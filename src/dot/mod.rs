@@ -126,6 +126,8 @@ pub enum Config {
     NodeNoLabel,
     /// Do not print the graph/digraph string.
     GraphContentOnly,
+    /// Sets node fill color.
+    NodeFill,
     /// Sets direction of graph layout.
     RankDir(RankDir),
 }
@@ -157,6 +159,7 @@ make_config_struct!(
     EdgeIndexLabel,
     EdgeNoLabel,
     NodeNoLabel,
+    NodeFill,
     GraphContentOnly,
 );
 
@@ -183,6 +186,10 @@ where
             };
             writeln!(f, "{INDENT}rankdir=\"{value}\"")?;
         }
+
+        if self.config.NodeFill {
+            writeln!(f, "node [style=filled]")?;
+        } 
 
         // output all labels
         for node in g.node_references() {
